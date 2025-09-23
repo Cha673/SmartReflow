@@ -9,8 +9,6 @@ export default function ExcelFileHandler({ output }) {
   const [filteredExcelData, setFilteredExcelData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-
-
   const COLUMN_TO_FILTER = "Specialisation__Name";
 
   // ================= Premier fichier Excel =================
@@ -47,7 +45,10 @@ export default function ExcelFileHandler({ output }) {
     }
 
     const normalize = (col) =>
-      String(col).trim().replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_]/g, "");
+      String(col)
+        .trim()
+        .replace(/\s+/g, "_")
+        .replace(/[^a-zA-Z0-9_]/g, "");
 
     const availableColumns = Object.keys(excelData[0]);
     const realColumnName = availableColumns.find(
@@ -70,8 +71,6 @@ export default function ExcelFileHandler({ output }) {
     setFilteredExcelData(filtered);
   };
 
-
-
   return (
     <div>
       {/* Premier fichier Excel */}
@@ -87,12 +86,24 @@ export default function ExcelFileHandler({ output }) {
       </div>
 
       {excelData && output && (
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          }}
+        >
           <button
-            className="button"
+            className={`button ${isLoading ? "button--loading" : ""}`}
             onClick={applyAIFiltersToExcel}
             disabled={isLoading || !excelFile}
-            title={isLoading || !excelFile ? "Veuillez sélectionner un fichier Excel" : ""}
+            title={
+              isLoading || !excelFile
+                ? "Veuillez sélectionner un fichier Excel"
+                : ""
+            }
+            aria-busy={isLoading}
+            aria-disabled={isLoading || !excelFile}
           >
             {isLoading ? <SPLoader /> : "Appliquer les filtres IA à l'Excel"}
           </button>
@@ -110,7 +121,6 @@ export default function ExcelFileHandler({ output }) {
       )}
 
       <ExcelDownload filteredData={filteredExcelData} />
-      
     </div>
   );
 }

@@ -28,13 +28,14 @@ body {
 }
 
 .titre {
-
   padding: 5%;
-  color: #000;
+  color: #333F50;
   font-size: 22px;
 }
 
 .automatisation {
+  display: flex;
+  justify-content: center;
   font-weight: lighter;
   font-family: "Baskervville", Sans-serif;
   font-size: 25px;
@@ -71,12 +72,49 @@ body {
   transform: scale(0.9);
 }
 
+/* état "loading" : supprimer bord, recentrer le loader */
+.button.button--loading {
+  border: none;               /* plus de bordure */
+  background-color: transparent; /* fond transparent */
+  color: inherit;
+  padding: 12px;              /* ajuste selon la taille du loader */
+  width: 56px;                /* largeur fixe pour un joli centrage */
+  height: 56px;               /* hauteur fixe */
+  border-radius: 50%;         /* rond si tu veux, ou garder 25px si non */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;           /* retirer ombre si existante */
+  transition: none;           /* désactiver transition pendant chargement */
+}
+
+/* empêcher les effets hover quand en chargement */
+.button.button--loading:hover {
+  transform: none;
+  cursor: default;
+}
+
+/* priorité au cas où .button:disabled existe déjà */
+.button:disabled.button--loading {
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 1; /* si tu veux garder le loader bien visible */
+  cursor: default;
+}
+
 .app-container {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.content {
+  display: flex;
+  gap: 1rem;
 }
 
 .left-panel {
@@ -85,22 +123,28 @@ body {
 }
 
 .right-panel {
-  flex: 1;
-  min-width: 300px;
   background-color: #f8f9fa;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  min-height: 60px;
+  height: auto;
+  overflow-y: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .right-panel h2 {
   margin-top: 0;
   margin-bottom: 15px;
-  color: #333;
+  color: #333F50;
   font-size: 1.2em;
 }
 
 .filters-table {
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
 }
 
@@ -174,10 +218,6 @@ body {
   }
 
   .left-panel {
-    min-width: auto;
-  }
-
-  .right-panel {
     min-width: auto;
   }
 }
